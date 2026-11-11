@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7f4"><meta name="description" content="A database-backed student record manager and algorithm performance analyzer.">
+  <title>Student Records · AlgoLab</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="#"><span class="brand-icon">A</span><span>algo<span class="brand-light">lab</span><small>ACADEMIC SYSTEMS</small></span></a>
+  <div class="nav-label">WORKSPACE</div><a class="nav-item active" href="#overview"><span>▦</span> Overview</a><a class="nav-item" href="#directory"><span>☷</span> Student records <span class="nav-count" id="navCount">—</span></a><a class="nav-item" href="#analyzer"><span>⌁</span> Performance lab</a>
+  <div class="sidebar-bottom"><div class="db-status"><span class="status-dot"></span><div><b>Database connected</b><small>SQLite · Local storage</small></div></div><div class="avatar">DAA</div><div class="account"><b>Course project</b><small>Design & analysis of algorithms</small></div>
+  </div>
+</aside>
+<main class="main">
+  <header class="topbar"><div class="breadcrumb">Workspace <span>/</span> <b>Student records</b></div><div class="top-actions"><span class="server-status"><i></i> System online</span><span class="top-avatar">A</span></div></header>
+  <div class="content">
+    <section class="welcome" id="overview"><div><div class="overline"><span class="overline-dot"></span> DESIGN &amp; ANALYSIS OF ALGORITHMS</div><h1>Student records</h1><p>Manage academic records and explore the efficiency of classic search algorithms.</p></div><button class="button button-dark" id="addButton"><span>＋</span> Add student</button></section>
+    <section class="stats">
+      <article class="stat-card"><div class="stat-top"><span class="stat-icon green">▤</span><span class="stat-tag">DATABASE</span></div><div class="stat-value" id="totalStat">—</div><div class="stat-caption">Total students</div></article>
+      <article class="stat-card"><div class="stat-top"><span class="stat-icon blue">◉</span><span class="stat-tag">ACADEMIC</span></div><div class="stat-value" id="gpaStat">—</div><div class="stat-caption">Average GPA <span class="stat-detail">out of 10.0</span></div></article>
+      <article class="stat-card"><div class="stat-top"><span class="stat-icon amber">↗</span><span class="stat-tag">TOP RESULT</span></div><div class="stat-value" id="topGpaStat">—</div><div class="stat-caption">Highest GPA <span class="stat-detail">in this dataset</span></div></article>
+      <article class="stat-card"><div class="stat-top"><span class="stat-icon violet">⌂</span><span class="stat-tag">MOST REPRESENTED</span></div><div class="stat-value stat-dept" id="departmentStat">—</div><div class="stat-caption">Leading department</div></article>
+    </section>
+
+    <section class="card directory-card" id="directory">
+      <div class="card-heading"><div><div class="eyebrow">RECORD MANAGEMENT</div><h2>Student directory</h2><p>Search, review and maintain the student database.</p></div><span class="record-count" id="recordCount">— records</span></div>
+      <div class="toolbar"><label class="search-control"><span>⌕</span><input id="filterInput" placeholder="Filter by name, ID or department…" autocomplete="off"><kbd>⌘ K</kbd></label><label class="sort-control"><span>Sort by</span><select id="sortSelect"><option value="id">Student ID</option><option value="name">Student name</option><option value="department">Department</option><option value="gpa">GPA</option><option value="updated_at">Recently updated</option></select><button class="icon-button" id="directionButton" title="Toggle sort direction">↑</button></label><button class="button button-outline" id="refreshButton">↻ <span>Refresh</span></button></div>
+      <div class="table-scroll"><table><thead><tr><th>STUDENT</th><th>DEPARTMENT</th><th>GPA</th><th>LAST UPDATED</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody id="studentRows"><tr><td class="loading-cell" colspan="5">Loading records…</td></tr></tbody></table></div>
+      <div class="table-footer"><span id="tableSummary">Loading database…</span><span class="persistence-note"><span class="status-dot"></span> Changes save automatically</span></div>
+    </section>
+
+    <section class="card analyzer-card" id="analyzer">
+      <div class="analyzer-head"><div><div class="eyebrow">DESIGN &amp; ANALYSIS OF ALGORITHMS</div><h2>Search performance lab</h2><p>Compare algorithm behavior on the live student database and on larger generated datasets.</p></div><button class="button button-dark" id="benchmarkButton"><span>▶</span> Run benchmark</button></div>
+      <div class="lab-grid"><div class="lab-left"><div class="search-lab"><div class="lab-title"><span class="lab-badge">01</span><div><b>Find a student</b><small>Exact match in the current database</small></div></div><div class="lab-controls"><input id="searchInput" placeholder="Enter student ID or full name" autocomplete="off"><select id="searchField" aria-label="Search field"><option value="id">By ID</option><option value="name">By name</option></select></div><div class="algo-controls"><div class="segmented"><button class="segment active" data-algorithm="linear">Linear <span>O(n)</span></button><button class="segment" data-algorithm="binary">Binary <span>O(log n)</span></button></div><button class="button button-green" id="searchButton">Search</button></div><div class="search-result" id="searchResult"><span class="result-symbol">i</span><span>Choose a search method and enter a student to begin.</span></div></div>
+      <div class="complexity-box"><div class="complexity-title">ALGORITHM NOTES</div><div class="complexity-row"><span class="complexity-dot linear-dot"></span><div><b>Linear search</b><small>Scans records in sequence. Works without sorting.</small></div><code>O(n)</code></div><div class="complexity-row"><span class="complexity-dot binary-dot"></span><div><b>Binary search</b><small>Halves a sorted range at each comparison.</small></div><code>O(log n)</code></div><div class="note-line">Binary search sorts a copy of records first. Its chart timing excludes sorting and database retrieval so it measures the search step alone.</div></div></div>
+      <div class="chart-panel"><div class="chart-title"><div><b>Runtime by input size</b><small>Worst-case successful search · average time per search</small></div><span class="chart-unit">MILLISECONDS</span></div><div class="chart-wrap"><canvas id="performanceChart" aria-label="Line chart comparing linear and binary search benchmark times"></canvas><div class="chart-empty" id="chartEmpty"><span>↗</span><b>Ready to analyze</b><small>Run the benchmark to compare both algorithms.</small></div></div><div class="chart-legend"><span><i class="legend-linear"></i>Linear search</span><span><i class="legend-binary"></i>Binary search</span><span class="benchmark-detail" id="benchmarkDetail"></span></div></div></div>
+    </section>
+    <footer class="footer"><span>AlgoLab <span>·</span> DAA Student Record Searching &amp; Performance Analyzer</span><span>SQLite persistent storage <span>·</span> Local application</span></footer>
+  </div>
+</main>
+
+<dialog id="studentDialog" class="student-dialog"><form id="studentForm"><div class="dialog-head"><div><div class="eyebrow" id="dialogEyebrow">NEW RECORD</div><h2 id="dialogTitle">Add a student</h2></div><button type="button" class="dialog-close" id="closeDialog" aria-label="Close">×</button></div><label>Student ID<input name="id" placeholder="e.g. STU-1013" maxlength="30" required></label><label>Full name<input name="name" placeholder="Student full name" maxlength="100" required></label><label>Department<input name="department" placeholder="e.g. Computer Science" maxlength="100" required></label><label>GPA <span class="label-hint">Scale: 0.00 – 10.00</span><input name="gpa" type="number" min="0" max="10" step="0.01" placeholder="8.50" required></label><div class="dialog-error" id="dialogError"></div><div class="dialog-actions"><button type="button" class="button button-outline" id="cancelDialog">Cancel</button><button type="submit" class="button button-dark" id="saveButton">Save student</button></div></form></dialog>
+<div class="toast" id="toast" role="status"></div>
+<script src="app.js" defer></script>
+</body></html>
